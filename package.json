@@ -1,0 +1,47 @@
+{
+    "name": "medical_project",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
+    },
+    "dependencies": {
+        "axios": "^0.19.2",
+        "core-js": "^3.6.5",
+        "echarts": "^4.8.0",
+        "element-ui": "^2.4.5",
+        "file-saver": "^2.0.2",
+        "js-md5": "^0.7.3",
+        "lodash": "^4.17.19",
+        "nprogress": "^0.2.0",
+        "path": "^0.12.7",
+        "stylus": "^0.54.7",
+        "stylus-loader": "^3.0.2",
+        "vue": "^2.6.11",
+        "vue-quill-editor": "^3.0.6",
+        "vue-router": "^3.2.0",
+        "vue-table-with-tree-grid": "^0.2.4",
+        "vuex": "^3.4.0",
+        "xlsx": "^0.16.4"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "~4.4.0",
+        "@vue/cli-plugin-eslint": "~4.4.0",
+        "@vue/cli-plugin-router": "~4.4.0",
+        "@vue/cli-plugin-vuex": "~4.4.0",
+        "@vue/cli-service": "~4.4.0",
+        "@vue/eslint-config-airbnb": "^5.0.2",
+        "babel-eslint": "^10.1.0",
+        "babel-plugin-transform-remove-console": "^6.9.4",
+        "eslint": "^6.7.2",
+        "eslint-plugin-import": "^2.20.2",
+        "eslint-plugin-vue": "^6.2.2",
+        "less": "^3.11.3",
+        "less-loader": "^6.1.1",
+        "script-loader": "^0.7.2",
+        "vue-cli-plugin-element": "^1.0.1",
+        "vue-template-compiler": "^2.6.11"
+    }
+}
