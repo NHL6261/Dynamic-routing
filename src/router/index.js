@@ -7,17 +7,22 @@ const originalReplace = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
     return originalReplace.call(this, location)
 };
+
+//  公共路由
 const commonRoute = [
 
     {
         path: '/login',
         component: (resolve) => require(['@/views/login'], resolve),
         meta: {
-            title: '测试页面'
+            title: '登 录'
         }
     },
 
 ]
+
+// dynamic_routing
+const dynmicRoute = []
 const router = new VueRouter({
     // mode: 'history',
     scrollBehavior: () => ({ y: 0 }),

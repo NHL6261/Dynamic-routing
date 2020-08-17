@@ -3,7 +3,11 @@ import App from './App.vue';
 import router from '@/router';
 import store from '@/store';
 import '@/plugins/element.js'
-// 进度条
+import '@/css/global.css'
+import '@/utils/adaptation'
+import { closeFun } from './utils/close'
+// import 'lib-flexible'
+// 进度条1
 Vue.config.productionTip = false;
 
 Vue.filter('dateFormat', (originVal) => {
@@ -22,6 +26,7 @@ Vue.filter('dateFormat', (originVal) => {
     const ss = (`${dt.getSeconds()}`).padStart(2, '0');
     return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
 });
+Vue.use(closeFun)
 new Vue({
     router,
     store,

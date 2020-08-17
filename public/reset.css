@@ -10,6 +10,7 @@ span,
 applet,
 object,
 iframe,
+h1,
 h2,
 h4,
 h5,
@@ -88,6 +89,7 @@ input {
     font-size: 100%;
     font-weight: normal;
     vertical-align: baseline;
+    font-size: 16px;
 }
 
 
@@ -140,23 +142,23 @@ li {
     list-style: none;
 }
 
- ::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 5px;
     height: 5px;
 }
 
- ::-webkit-scrollbar-track-piece {
+::-webkit-scrollbar-track-piece {
     background-color: rgba(0, 0, 0, 0.2);
     -webkit-border-radius: 6px;
 }
 
- ::-webkit-scrollbar-thumb:vertical {
+::-webkit-scrollbar-thumb:vertical {
     height: 5px;
     background-color: rgba(125, 125, 125, 0.7);
     -webkit-border-radius: 6px;
 }
 
- ::-webkit-scrollbar-thumb:horizontal {
+::-webkit-scrollbar-thumb:horizontal {
     width: 5px;
     background-color: rgba(125, 125, 125, 0.7);
     -webkit-border-radius: 6px;
@@ -180,4 +182,13 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.clearfix {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
 }
