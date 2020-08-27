@@ -1,3 +1,4 @@
+import VueCompositionApi from '@vue/composition-api'
 import Vue from 'vue';
 import App from './App.vue';
 import router from '@/router';
@@ -5,9 +6,10 @@ import store from '@/store';
 import '@/plugins/element.js'
 import '@/css/global.css'
 import '@/utils/adaptation'
-import { closeFun } from './utils/close'
-// import 'lib-flexible'
-// 进度条1
+import { closeFun } from '@/utils/close'
+import Api from '@/api/index'
+
+Vue.prototype.$http = Api
 Vue.config.productionTip = false;
 
 Vue.filter('dateFormat', (originVal) => {
@@ -27,6 +29,7 @@ Vue.filter('dateFormat', (originVal) => {
     return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
 });
 Vue.use(closeFun)
+Vue.use(VueCompositionApi)
 new Vue({
     router,
     store,
