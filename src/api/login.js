@@ -16,7 +16,14 @@ export default {
             data
         })
     },
-
+    // 注册
+    RegiSter(data) {
+        return ajax.request({
+            method: "post",
+            url: "/register/",
+            data
+        })
+    },
     // 登录
     Login(data) {
         return ajax.request({
@@ -24,5 +31,6 @@ export default {
             url: "/login/",
             data
         })
+        console.log(data)
     }
 }

@@ -31,10 +31,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     /* 路由发生变化修改页面title */
-    if (to.meta.title) {
-        document.title = to.meta.title
-    }
-    next()
+    // if (to.meta.title) {
+    //     document.title = to.meta.title
+    // }
+    // next()
 
     // to 将要访问的路径,from从哪个路径跳转而来,next 是一个函数表示放行 可以强制绑定跳转地址
     if (to.path === '/register') return next();

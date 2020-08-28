@@ -36,8 +36,9 @@
         </el-form-item>
 
         <el-form-item prop="passwords" class="item-from" v-show="model === 'register'">
-          <label>重复密码</label>
+          <label for="passwords">重复密码</label>
           <el-input
+            id="passwords"
             type="password"
             v-model="ruleForm.passwords"
             autocomplete="off"
@@ -47,13 +48,18 @@
         </el-form-item>
 
         <el-form-item prop="code" class="item-from">
-          <label>验证码</label>
+          <label for="code">验证码</label>
           <el-row :gutter="10">
             <el-col :span="15">
-              <el-input v-model="ruleForm.code" minlength="6" maxlength="6"></el-input>
+              <el-input id="code" v-model="ruleForm.code" minlength="6" maxlength="6"></el-input>
             </el-col>
             <el-col :span="9">
-              <el-button type="success" class="block" @click="getCodeHandle">获取验证码</el-button>
+              <el-button
+                type="success"
+                class="block"
+                @click="getCodeHandle"
+                :disabled="CodeButtonStatus.status"
+              >{{CodeButtonStatus.text}}</el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -62,6 +68,7 @@
             type="danger"
             @click="submitForm('loginForm')"
             class="login-btn block"
+            :disabled="loginButtonStatus"
           >{{ model === 'login' ? "登录" : "注册" }}</el-button>
         </el-form-item>
       </el-form>
@@ -70,6 +77,7 @@
 </template>
 <script>
 import { Message } from "element-ui";
+import sha1 from "js-sha1";
 import {
   reactive,
   ref,
@@ -146,10 +154,17 @@ export default {
       { txt: "登录", current: true, type: "login" },
       { txt: "注册", current: false, type: "register" },
     ]);
+    // 定义发送验证码状态
+    const CodeButtonStatus = reactive({
+      status: false,
+      text: "获取验证码",
+    });
     // 模块值
     const model = ref("login");
-    // 登录按钮禁用状态
+    // 登录按钮禁用
     const loginButtonStatus = ref(true);
+    // 倒计时
+    const timer = ref(null);
     // 表单的验证
     const rules = reactive({
       username: [{ validator: validateUsername, trigger: "blur" }],
@@ -159,15 +174,17 @@ export default {
     });
 
     // 表单绑定数据
+    // 410293095@qq.com
     const ruleForm = reactive({
-      username: '410293095@qq.com',
-      password: '123qwe',
-      passwords: '',
-      code: '111111',
+      username: "",
+      password: "",
+      passwords: "",
+      code: "",
     });
     /**
      * 声明函数
      */
+    
     // 切换模块
     const toggleMenu = (data) => {
       menuTab.forEach((elem, index) => {
@@ -178,51 +195,162 @@ export default {
       // 修改模块值
       model.value = data.type;
       resetFromData();
+      clearCountDown();
     };
-    
-    let VerificData = {
-       
-      username: ruleForm.username,
-      module: model.value
-    };
+
     // 获取验证码
     const getCodeHandle = () => {
+      if (model.value === "login") {
+        if (ruleForm.username == "") {
+          root.$message({
+            showClose: true,
+            message: "请输入您的邮箱!",
+            type: "error",
+          });
+          return;
+        } else if (validateEmail(ruleForm.username)) {
+          root.$message.error("邮箱格式有误,请从新输入!");
+          return;
+        } else {
+          CodeButtonStatus.status = true;
+          CodeButtonStatus.text = "发送中";
+          getCodeInfo();
+        }
+      } else if (model.value === "register") {
+        if (ruleForm.username == "") {
+          root.$message.error("请输入您要注册的邮箱地址！");
+          return;
+        } else if (ruleForm.password == "") {
+          root.$message.error("请输入您的密码！");
+          return;
+        } else if (ruleForm.password !== ruleForm.passwords) {
+          root.$message.error("请确认重复密码正确!");
+          return false;
+        } else {
+          CodeButtonStatus.status = true;
+          CodeButtonStatus.text = "发送中";
+          getCodeInfo();
+        }
+      }
+    };
+    // 获取验证码方法
+    const getCodeInfo = () => {
+      let VerificData = {
+        username: ruleForm.username,
+        module: model.value,
+      };
       root.$http.login.GetSms(VerificData).then((res) => {
-        console.log(res.data)
-      })
-    }
+        countDown(60);
+        if (res.data.resCode === 0) {
+          root.$message.success(res.data.message);
+          // let code = res.data.message.substring(res.data.message.length - 6);
+          // ruleForm.code = code;
+          loginButtonStatus.value = false;
+        }
+      });
+    };
+
     // 登录预验证
     const submitForm = (loginForm) => {
       refs[loginForm].validate((valid) => {
-        if(valid){
-          let data = root.ruleForm
-          root.$http.login.Login(data).then((res)=> {
-            console.log(res)
-          })
+        if (valid) {
+          model.value === "login" ? login() : register();
         }
-      })
+      });
     };
+
+    // 登录 板块请求方法
+    const login = () => {
+      let loginData = {
+        username: ruleForm.username,
+        password: sha1(ruleForm.password),
+        code: ruleForm.code,
+      };
+      root.$http.login
+        .Login(loginData)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => {
+          root.$message.error(error);
+        });
+    };
+
+    // 注册 板块请求方法
+    const register = () => {
+      let registerData = {
+        username: ruleForm.username,
+        password: sha1(ruleForm.password),
+        code: ruleForm.code,
+      };
+      root.$http.login.RegiSter(registerData).then((res) => {
+        console.log(res.data);
+        if (res.data.resCode === 0) {
+          root.$message.success(res.data.message);
+          toggleMenu(menuTab[0]);
+          clearCountDown();
+        }
+      });
+    };
+
+    // 倒计时
+    const countDown = (number) => {
+      // 多次点击 有就清掉
+      timer.value && clearInterval(timer.value);
+      // 循环定时器
+      let time = number;
+      timer.value = setInterval(() => {
+        time--;
+        if (time === 0) {
+          clearInterval(timer.value);
+          CodeButtonStatus.status = false;
+          CodeButtonStatus.text = "再次获取";
+        } else {
+          CodeButtonStatus.text = `倒计时${time}秒`;
+        }
+      }, 1000);
+    };
+
+    // 清除倒计时
+    const clearCountDown = () => {
+      clearInterval(timer.value);
+      CodeButtonStatus.status = false;
+      CodeButtonStatus.text = "获取验证码";
+    };
+
     // 清除表单数据
     const resetFromData = () => {
       // 重置表单
       // this.$refs[formName].resetFields(); //2.0
       refs.loginForm.resetFields(); // 3.0
     };
+
+    
     /**
      * 生命周期
      */
     // 挂载完成后
     onMounted(() => {
-
+    });
+    onUnmounted(() => {
+      clearInterval(timer.value);
     });
     return {
-      menuTab,
-      model,
-      ruleForm,
-      rules,
+      loginButtonStatus,
+      CodeButtonStatus,
+      clearCountDown,
+      getCodeHandle,
+      getCodeInfo,
       toggleMenu,
       submitForm,
-      getCodeHandle
+      countDown,
+      register,
+      ruleForm,
+      menuTab,
+      login,
+      model,
+      rules,
+      timer,
     };
   },
 };
