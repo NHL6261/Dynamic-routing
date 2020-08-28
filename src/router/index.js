@@ -13,7 +13,7 @@ const commonRoute = [
 
     {
         path: '/login',
-        component: (resolve) => require(['@/views/login/idnex.vue'], resolve),
+        component: (resolve) => require(['@/views/login'], resolve),
         meta: {
             title: '登 录'
         }
@@ -21,7 +21,7 @@ const commonRoute = [
 
 ]
 
-// dynamic_routing 公共路由
+// dynamic_routing
 const dynmicRoute = []
 const router = new VueRouter({
     // mode: 'history',
