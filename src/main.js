@@ -1,3 +1,4 @@
+import VueCompositionApi from '@vue/composition-api'
 import Vue from 'vue';
 import App from './App.vue';
 import router from '@/router';
@@ -27,6 +28,7 @@ Vue.filter('dateFormat', (originVal) => {
     return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
 });
 Vue.use(closeFun)
+Vue.use(VueCompositionApi)
 new Vue({
     router,
     store,

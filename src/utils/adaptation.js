@@ -12,7 +12,6 @@
     win.addEventListener(
         "resize",
         function() {
-            console.log('测试')
             clearTimeout(tid);
             tid = setTimeout(refreshRem, 300);
         },

@@ -1,5 +1,7 @@
 <template>
-  <router-view />
+  <transition>
+    <router-view />
+  </transition>
 </template>
 
 <script type="text/ecmascript-6">
@@ -23,7 +25,7 @@ export default {
         this.tit = foot + head;
         // 最后赋给最终显示的标题(标题)
         document.title = this.tit;
-        this.close ++;
+        this.close++;
       }, 1000);
     },
   },
