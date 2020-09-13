@@ -13,7 +13,7 @@ export default {
     };
   },
   created() {
-    // this.TitleScrolling();
+    this.TitleScrolling();
   },
   methods: {
     TitleScrolling() {
@@ -26,11 +26,14 @@ export default {
         // 最后赋给最终显示的标题(标题)
         document.title = this.tit;
         this.close++;
+        if (this.close === 300) {
+          clearInterval(timer);
+        }
       }, 1000);
     },
   },
 };
 </script>
 
-<style lang ="less" scoped>
+<style lang ="scss" scoped>
 </style>

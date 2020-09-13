@@ -16,10 +16,6 @@ const ajax = axios.create({
 ajax.interceptors.request.use(function(config) {
     // 在发送请求之前做些什么
     // config.headers.Token = 
-
-
-
-
     return config;
 }, function(error) {
     // 对请求错误做些什么

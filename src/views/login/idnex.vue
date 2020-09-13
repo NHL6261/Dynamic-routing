@@ -176,15 +176,14 @@ export default {
     // 表单绑定数据
     // 410293095@qq.com
     const ruleForm = reactive({
-      username: "",
-      password: "",
+      username: "ni248376261@163.com",
+      password: "ni248376261",
       passwords: "",
       code: "",
     });
     /**
      * 声明函数
      */
-    
     // 切换模块
     const toggleMenu = (data) => {
       menuTab.forEach((elem, index) => {
@@ -266,11 +265,15 @@ export default {
         password: sha1(ruleForm.password),
         code: ruleForm.code,
       };
-      root.$http.login
-        .Login(loginData)
+      root.$store
+        .dispatch("ObtainLoginDataActions", loginData)
         .then((res) => {
-          console.log(res.data);
-        })
+          if (res.data.resCode !== 0) {
+            return;
+          } else {
+            root.$router.push({ name: "Console" });
+          }
+        }) 
         .catch((error) => {
           root.$message.error(error);
         });
@@ -325,13 +328,11 @@ export default {
       refs.loginForm.resetFields(); // 3.0
     };
 
-    
     /**
      * 生命周期
      */
     // 挂载完成后
-    onMounted(() => {
-    });
+    onMounted(() => {});
     onUnmounted(() => {
       clearInterval(timer.value);
     });

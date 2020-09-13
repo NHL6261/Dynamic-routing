@@ -156,7 +156,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .login-swiper {
   height: 100vh;
   overflow: hidden;
