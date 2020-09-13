@@ -1,6 +1,6 @@
 // 获取token
 
 export function getToken() {
-    let token = window.localStorage.getItem('token')
+    let token = sessionStorage.getItem('token')
     return token
 }

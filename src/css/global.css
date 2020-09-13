@@ -1,0 +1,12 @@
+html,
+body {
+    min-width: 1024px;
+}
+
+.el-form-item__content {
+    margin-left: 0px !important;
+}
+
+.el-menu {
+    border-right: none;
+}
