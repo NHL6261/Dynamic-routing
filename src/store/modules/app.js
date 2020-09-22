@@ -12,9 +12,6 @@ const mutations = {
         state.isCollapse = !state.isCollapse
         sessionStorage.setItem('isCollapse', JSON.stringify(state.isCollapse))
     },
-    SET_COUNT(state, value) {
-        state.count = value
-    },
     SET_TOKEN(state, value) {
         state.token = value
     },

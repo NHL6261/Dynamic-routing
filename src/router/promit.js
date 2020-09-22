@@ -17,7 +17,6 @@ router.beforeEach((to, from, next) => {
             // 动态分配权限
             next()
         }
-        console.log('token存在')
     } else {
         if (whitRouter.indexOf(to.path) !== -1) {
             next()

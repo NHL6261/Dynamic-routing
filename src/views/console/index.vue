@@ -6,12 +6,23 @@
 
 <script>
 export default {
+  data(){
+    return{
+      isShow: false,
+    }
+  },
+  methods:{
+    tab(){
+      this.isShow = !this.isShow
+    },
+    
+  }
 
 };
 </script>
 
 <style lang="scss" scoped>
-h1{
+h1 {
   z-index: 10;
 }
 </style>
