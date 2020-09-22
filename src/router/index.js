@@ -103,7 +103,6 @@ const commonRoute = [
             }
         ]
     },
-
 ]
 
 // dynamic_routing 公共路由
