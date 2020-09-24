@@ -7,6 +7,7 @@ import '@/plugins/element.js'
 import '@/css/global.css'
 import '@/utils/adaptation'
 import '@/utils/Time-formatting'
+import global from '@/utils/global'
 import "@/router/promit"
 import '@/icons'
 import { closeFun } from '@/utils/close'
@@ -16,6 +17,7 @@ Vue.prototype.$http = Api
 Vue.config.productionTip = false;
 
 Vue.use(scss)
+Vue.use(global)
 Vue.use(closeFun)
 Vue.use(VueCompositionApi)
 new Vue({

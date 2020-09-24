@@ -1,6 +1,7 @@
 // 创建请求拦截器以及携带的请求头
 import axios from 'axios'
 import qs from 'querystring'
+import { getToken, getUserName } from './app.js'
 import { Message } from 'element-ui';
 // 当前的环境 开发 && 生产
 const BASEURL = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_API : process.env.VUE_APP_BASE_API;
@@ -15,7 +16,8 @@ const ajax = axios.create({
 // 添加请求拦截器
 ajax.interceptors.request.use(function(config) {
     // 在发送请求之前做些什么
-    // config.headers.Token = 
+    config.headers['Tokey'] = getToken()
+    config.headers['UserName'] = getUserName()
     return config;
 }, function(error) {
     // 对请求错误做些什么

@@ -40,13 +40,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="3">
-          <el-input v-model="query_data" placeholder="请输入查询内容"></el-input>
+          <el-input
+            v-model="query_data"
+            placeholder="请输入查询内容"
+          ></el-input>
         </el-col>
         <el-col :span="2">
           <el-button type="primary" @click="queryDataList">查询</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button type="primary" @click="dialogVisible = true">添加</el-button>
+          <el-button type="primary" @click="dialogVisible = true"
+            >添加</el-button
+          >
         </el-col>
       </el-row>
     </el-form>
@@ -60,15 +65,45 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column type="index" width="50" label="序号"></el-table-column>
-          <el-table-column prop="title" label="标题" width="530px"></el-table-column>
-          <el-table-column prop="category" label="类型" width="130px"></el-table-column>
-          <el-table-column prop="date" label="日期" width="237px"></el-table-column>
-          <el-table-column prop="user" label="管理员" width="215px"></el-table-column>
+          <el-table-column
+            type="index"
+            width="50"
+            label="序号"
+          ></el-table-column>
+          <el-table-column
+            prop="title"
+            label="标题"
+            width="530px"
+          ></el-table-column>
+          <el-table-column
+            prop="category"
+            label="类型"
+            width="130px"
+          ></el-table-column>
+          <el-table-column
+            prop="date"
+            label="日期"
+            width="237px"
+          ></el-table-column>
+          <el-table-column
+            prop="user"
+            label="管理员"
+            width="215px"
+          ></el-table-column>
           <el-table-column label="操作" width="220px" fixed="right">
             <template slot-scope="scope">
-              <el-button type="danger" size="mini" @click="deleteHandle(scope.row)">删除</el-button>
-              <el-button type="warning" size="mini" @click="dialogVisible = true">编辑</el-button>
+              <el-button
+                type="danger"
+                size="mini"
+                @click="deleteHandle(scope.row)"
+                >删除</el-button
+              >
+              <el-button
+                type="warning"
+                size="mini"
+                @click="dialogVisible = true"
+                >编辑</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -76,7 +111,9 @@
     </el-row>
     <el-row style="margin-top: 20px">
       <el-col :span="12">
-        <el-button type="warning" size="medium">批量删除</el-button>
+        <el-button type="warning" plain size="medium" @click="deleteAll"
+          >批量删除</el-button
+        >
       </el-col>
       <el-col :span="12">
         <el-pagination
@@ -164,12 +201,10 @@ export default {
         user: "上海市普陀区金沙江路 1518 弄",
       },
     ]);
-    const queryInfo = reactive([
-      {
-        pagenum: 1,
-        pagesize: 20,
-      },
-    ]);
+    const queryInfo = reactive({
+      pagenum: 1,
+      pagesize: 20,
+    });
     const keywordoptions = reactive([
       {
         value: "id",
@@ -193,51 +228,59 @@ export default {
     /*
      * 方法
      */
-    const getUserList = () => {
-
-    }
+    const getUserList = () => {};
     const queryDataList = () => {
-      console.log(1111111);
+      console.log("查询");
     };
     const handleSelectionChange = (row) => {};
-    const deleteHandle = (row) => {
-      root
-        .$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-          center: true
-        })
-        .then(() => {
-          // 发请求删除
-          // 判断状态
-          // 删除成功,更新列表
-          root.$message({
-            type: "success",
-            message: "删除成功!",
 
-          });
-        })
-        .catch(() => {
-          root.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
-      console.log(row);
+    const deleteHandle = (row) => {
+      root.confirm({
+        content: "此操作将永久删除当前信息,是否继续?",
+        title: "警告",
+        fn: deleteSingle,
+      });
     };
+
+    // 批量删除
+    const deleteAll = (row) => {
+      root.confirm({
+        content: "此操作将批量删除当前信息,是否继续?",
+        fn: confirmDelete,
+      });
+    };
+
+    // 删除多个的回调函数
+    const confirmDelete = () => {
+      console.log("执行了删除的回调");
+    };
+    // 删除一个
+    const deleteSingle = () => {
+      console.log("执行了只删除一个的回调");
+    };
+
     const editHandle = (row) => {
       console.log(row);
     };
     // 条数发生改变
     const handleSizeChange = (newSize) => {
-      console.log(root.queryInfo);
+      queryInfo.pagesize = newSize;
+      console.log(queryInfo.pagesize)
+      // 刷新列表
     };
-    const handleCurrentChange = (newPage) => {};
+    const handleCurrentChange = (newPage) => {
+      queryInfo.pagenum = newPage
+    };
     // 父组件 将dialog的框设置为false
     const closeDialogHandle = () => {
       dialogVisible.value = false;
     };
+
+    /*
+     * 钩子
+     */
+
+    onMounted(() => {});
     return {
       type,
       show1,
@@ -253,6 +296,7 @@ export default {
       keywordoptions,
       deleteHandle,
       editHandle,
+      deleteAll,
       getUserList,
       dialogVisible,
       handleSizeChange,

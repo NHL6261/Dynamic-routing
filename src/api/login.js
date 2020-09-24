@@ -31,6 +31,5 @@ export default {
             url: "/login/",
             data
         })
-        console.log(data)
     }
 }
